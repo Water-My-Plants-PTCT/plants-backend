@@ -32,12 +32,14 @@ router.post('/api/auth/login', (req, res) => {
       if(user && bcrypt.compareSync(password, user.password)) {
       console.log(user)       
       const token = jwt.sign({
-        userID: user.id,
+        id: user.id,
         username: user.username,
+        userRole: "basic",
         expiresIn: "30d",
       }, process.env.JWT_SECRET)//see admin for JWT secret
 
         res.cookie("token", token)
+        req.session.user = user
         res.status(200).json({
         message: `Welcome back ${req.body.username}`,
       })  
@@ -68,6 +70,24 @@ router.put("/api/auth/users/:id", async (req, res, next) => {
   }
 })
 
+
+router.post("/api/auth/logout", async (req, res, next) => {
+  try {
+    if (!req.session || !req.session.user) {
+      return res.status(200).json({message: "no session"})
+    } else {
+        req.session.destroy(err => {
+          if (err) {
+            next(err)
+          } else {
+            res.cookie("token", "")
+            res.status(200).json({message: "logged out!"})
+          }}
+        )}
+        } catch(err) {
+          next(err)
+      }
+  })
 
 
 

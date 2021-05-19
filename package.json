@@ -15,7 +15,6 @@
     "type": "git",
     "url": "git+https://github.com/Water-My-Plants-PTCT/plants-backend.git"
   },
-  
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Water-My-Plants-PTCT/plants-backend/issues"
@@ -23,10 +22,12 @@
   "homepage": "https://github.com/Water-My-Plants-PTCT/plants-backend#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "connect-session-knex": "^2.1.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
+    "express-session": "^1.17.2",
     "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.95.6",
