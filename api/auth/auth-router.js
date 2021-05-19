@@ -6,11 +6,11 @@ const mw = require("../middleware/index")
 
 router.post('/api/auth/register', mw.checkUsernameDups, mw.checkBodyValid, async (req, res, next) => {
   try {
-    const { username, phone_number, password } = req.body
+    const { username, phone, password } = req.body
     const hash = 8
     const registerUser = await db.add({
       username,
-      phone_number,
+      phone,
       password: await bcrypt.hashSync(password, hash),
     })
       if (registerUser) {

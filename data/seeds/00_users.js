@@ -4,8 +4,8 @@ exports.seed = function(knex) {
     .then(function () {
       // Inserts seed entries
       return knex('users').insert([
-        {username: 'test', password: "test", phone_number: '555-555-6666'},
-        {username: 'daniel', password: "daniel", phone_number: '480-555-6666'},
+        {username: 'test', password: "$2a$08$H9RXDNRZeOd.78WzWOR0I..IbaCrpLrsqHScIxkdw4.W/r1jaUUEe", phone: '555-555-6666'},
+        {username: 'bob', password: "$2a$08$H9RXDNRZeOd.78WzWOR0I..IbaCrpLrsqHScIxkdw4.W/r1jaUUEe", phone: '480-555-6666'},
       ])
     })
 }

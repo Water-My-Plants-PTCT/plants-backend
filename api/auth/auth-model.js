@@ -2,18 +2,18 @@ const db = require("../../data/db")
 
 function find() {
   return db("users")
-  .select("user_id", "username")
+  .select("id", "username")
 }
 
 function findBy(filter) {
   return db("users")
-  .select("user_id", "username", "password")
+  .select("id", "username", "password")
   .where(filter)
 }
 
 function findById(id) {
   return db("users")
-  .where("user_id", id)
+  .where("id", id)
   .first()
 }
 

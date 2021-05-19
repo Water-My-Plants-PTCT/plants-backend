@@ -41,8 +41,8 @@ const checkUsernameDups = (req, res, next) => {
 const checkBodyValid = (req, res, next) => {
   if (!req.body.username 
     || !req.body.password 
-    || !req.body.phone_number
-    || req.body.phone_number.length < 10 
+    || !req.body.phone
+    || req.body.phone.length < 10 
     || typeof req.body.username !== "string" || req.body.username.length < 3) {
     
       res.status(401).json({message: "Username and Password required or incorrect values"})
@@ -52,9 +52,18 @@ const checkBodyValid = (req, res, next) => {
   }
 }
 
+const plantBodyValid = (req, res, next) => {
+  if (!req.body.nickname || !req.body.species || !req.body.h2oFrequency) {
+    res.status(401).json({message: "Nickname, Species, and h2oFrequency (number of days as integer) required"})
+  } else {
+    next()
+  }
+}
+
 
 module.exports = {
   restricted,
   checkUsernameDups,
-  checkBodyValid
+  checkBodyValid,
+  plantBodyValid
 }
