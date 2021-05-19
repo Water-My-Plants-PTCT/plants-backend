@@ -17,6 +17,13 @@ function findById(id) {
   .first()
 }
 
+function findByUser(id) {
+  return db("users as u")
+  .where("id", id)
+  .join("plants as p", "p.user_id", "u.id")
+  .select("u.username", "p.plant_id", "p.nickname", "p.species", "p.h2oFrequency", "p.user_id", "p.image")
+}
+
 function removePlant(id) {
   return db("plants")
   .where("plant_id", id)
@@ -40,6 +47,7 @@ module.exports = {
   find,
   findBy,
   findById,
+  findByUser,
   removePlant,
   updatePlant,
   add

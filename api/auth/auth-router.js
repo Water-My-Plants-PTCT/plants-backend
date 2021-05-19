@@ -3,11 +3,12 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const db = require("./auth-model")
 const mw = require("../middleware/index")
+require('dotenv').config()
 
-router.post('/api/auth/register', mw.checkUsernameDups, mw.checkBodyValid, async (req, res, next) => {
+router.post('/api/auth/register', mw.checkUsernameDups, mw.checkPhoneDups, mw.checkBodyValid, async (req, res, next) => {
   try {
     const { username, phone, password } = req.body
-    const hash = 8
+    const hash =  8
     const registerUser = await db.add({
       username,
       phone,
@@ -34,7 +35,7 @@ router.post('/api/auth/login', (req, res) => {
         userID: user.id,
         username: user.username,
         expiresIn: "30d",
-      }, "keep it secret keep it safe")
+      }, process.env.JWT_SECRET)//see admin for JWT secret
 
         res.cookie("token", token)
         res.status(200).json({
@@ -51,26 +52,22 @@ router.post('/api/auth/login', (req, res) => {
   })
 
 
-router.get("/api/auth/logout", async (req, res, next) => {
+router.put("/api/auth/users/:id", async (req, res, next) => {
   try {
-    if (!req.session || !req.session.user) {
-      return res.status(200).json({message: "no session"})
-    
-    } else {
-      req.session.destroy(err => {
-        
-        if (err) {
-          next(err)
-        
-        } else {
-          res.status(200).json({message: "logged out! see you next time"})
-        }}
-      )}
+    const hash = 8
+    const newPassword = await bcrypt.hashSync(req.body.password, hash)
+    const updatedUser = await db.updateUser(req.params.id, {username: req.body.username, password: newPassword})
+      if (!updatedUser) {
+        return res.status(404).json({message: "No users for that specific id"})
+    }
+      
+      res.status(200).json({message: `${req.body.username}'s info has been updated`})
     
     } catch(err) {
       next(err)
   }
 })
+
 
 
 

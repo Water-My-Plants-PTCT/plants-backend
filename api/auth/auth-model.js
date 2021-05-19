@@ -23,10 +23,17 @@ async function add(user) {
   return findById(newUser)
 }
 
+function updateUser(id, values) {
+  return db("users")
+  .where("id", id)
+  .update(values)
+}
+
 
 module.exports = {
 	find,
 	findBy,
 	findById,
 	add,
+  updateUser
 }

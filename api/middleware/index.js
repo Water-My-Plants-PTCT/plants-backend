@@ -37,12 +37,25 @@ const checkUsernameDups = (req, res, next) => {
   )
 }
 
+const checkPhoneDups = (req, res, next) => {
+  const phone = req.body.phone
+  User.findBy({phone}).first()
+    .then(existingUser => {
+      if (existingUser) {
+      return res.status(401).json({message: "Phone number already taken"})
+
+    } else {
+      req.existingUser = existingUser
+      next()
+  }}
+  )
+}
 
 const checkBodyValid = (req, res, next) => {
   if (!req.body.username 
     || !req.body.password 
     || !req.body.phone
-    || req.body.phone.length < 10 
+    || req.body.phonelength < 10 
     || typeof req.body.username !== "string" || req.body.username.length < 3) {
     
       res.status(401).json({message: "Username and Password required or incorrect values"})
@@ -64,6 +77,7 @@ const plantBodyValid = (req, res, next) => {
 module.exports = {
   restricted,
   checkUsernameDups,
+  checkPhoneDups,
   checkBodyValid,
   plantBodyValid
 }

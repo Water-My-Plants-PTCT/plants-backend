@@ -26,6 +26,19 @@ router.get("/api/plants/:id", async (req, res, next) => {
   }
 })
 
+router.get("/api/plants/user/:id", async (req, res, next) => {
+  try {
+    const findUserPlants = await db.findByUser(req.params.id)
+      if (!findUserPlants) {
+        res.status(404).json({message: "No plants could be located for this user"})
+      }
+      res.json(findUserPlants)
+
+    } catch(err) {
+      next(err)
+    }
+})
+
 //creates a new plant and returns an object
 router.post("/api/plants", mw.plantBodyValid, async (req, res, next) => {
   try {
