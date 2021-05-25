@@ -12,7 +12,7 @@
     "rollbackh": "heroku run knex migrate:rollback -a water-my-plants-ptct",
     "databaseh": "heroku pg:psql -a water-my-plants-ptct",
     "seedh": "heroku run knex seed:run -a water-my-plants-ptct",
-    "test": "cross-env NODE_ENV=testing jest --watchAll --verbose --runInBand",
+    "test": "jest --watch --verbose --runInBand",
     "deploy": "git push heroku main"
   },
   "repository": {
